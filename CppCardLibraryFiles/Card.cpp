@@ -9,48 +9,48 @@
 using namespace std;
 
 //constructors
-Card::Card(){
+Card::Card(){//DONE
     value = -1;
     suit = null;
 }
-Card::Card(int v, const Suit& s){
+Card::Card(int v, const Suit& s){//DONE
     value = v;
     suit = s;
 }
 
 //getters
-int Card::getValue() const{
+int Card::getValue() const{//DONE
     return value;
 }
-Suit Card::getSuit() const{
+Suit Card::getSuit() const{//DONE
     return suit;
 }
 
 //setters
-void Card::setValue(int v){
+void Card::setValue(int v){//DONE
     value = v;
 }
-void Card::setString(Suit s){
+void Card::setString(Suit s){//DONE
     suit = s;
 }
 
-bool Card::hasValue() const{
+bool Card::hasValue() const{//DONE
     bool valid = 0;
     valid = suit==D || suit==S || suit==H || suit==C;
     return valid && value>0 && value<14;
 }
 
 //overloaded operators
-bool Card::operator==(const Card& other) const{
+bool Card::operator==(const Card& other) const{//DONE
     return value==other.value;
 }
-bool Card::operator!=(const Card& other) const{
+bool Card::operator!=(const Card& other) const{//DONE
     return value!=other.value;
 }
-bool Card::operator*=(const Card& other) const{
+bool Card::operator*=(const Card& other) const{//DONE
     return suit==other.suit;
 }
-bool Card::operator<(const Card& other) const{
+bool Card::operator<(const Card& other) const{//DONE
     int tempValL = value;
     int tempValR = other.value;
     if(tempValL==1){
@@ -61,7 +61,7 @@ bool Card::operator<(const Card& other) const{
     }
     return tempValL<tempValR;
 }
-bool Card::operator>(const Card& other) const{
+bool Card::operator>(const Card& other) const{//DONE
     int tempValL = value;
     int tempValR = other.value;
     if(tempValL==1){
@@ -72,7 +72,7 @@ bool Card::operator>(const Card& other) const{
     }
     return tempValL>tempValR;
 }
-ostream& operator<<(ostream& out, const Card& card){
+ostream& operator<<(ostream& out, const Card& card){//DONE
     switch(card.value){
     case(1):
         out << "ace";
@@ -109,7 +109,7 @@ ostream& operator<<(ostream& out, const Card& card){
     }
     return out;
 }
-istream& operator>>(istream& in, Card& card){
+istream& operator>>(istream& in, Card& card){//DONE WITH CHANGE
     string inSuit;
     in >> card.value >> inSuit;
     if(inSuit=="of"){
