@@ -1,0 +1,39 @@
+Chromosome:
+
+represented by 2d array of booleans which code for stand (false) or hit (true)
+[] 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 (sum of player's hand)
+2  
+3  
+4
+5
+6
+7
+8
+9
+10
+11
+(dealer's card)
+
+Original Population:
+
+each player will have a Chromosome of random genes (true or false)
+
+Fitness:
+
+pair off players to play through a certain number of games
+player's fitness increases for each game they win up to the max of the number of total games
+
+Crossover (mating) & Mutation:
+
+select highest fitness individuals to reproduce the next generation
+
+crossover genes from each parent to make child Chromosome
+
+mutate certain percentage of genes 
+
+(best way to do this may be to iterate through child Chromosome and select either mother, father, 
+or random gene at that locus)
+
+
+assemble children (and possibly some of the previous generation) into a new Population
+rinse and repeat
