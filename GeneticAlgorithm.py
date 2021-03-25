@@ -46,12 +46,28 @@ class Chromosome:
                 else:
                     _d[j] = move
             self.pairs[i] = _d
+    
+    # to string
+    def __str__(self):
+        s = ''
+        s += "Hard Hands:\n"
+        for i in self.hard_hands:
+            s += str(i) + ': ' 
+            if i<10: s += ' '
+            s += str(self.hard_hands[i]) + '\n'
+        s += "Soft Hands:\n"
+        for i in self.soft_hands:
+            s += str(i) + ': ' 
+            if i<10: s += ' '
+            s += str(self.soft_hands[i]) + '\n'
+        s += "Pairs:\n"
+        for i in self.pairs:
+            s += str(i) + ': ' 
+            if i<10: s += ' '
+            s += str(self.pairs[i]) + '\n'
+        return s
 
 
-
-
-        
-        
 class Individual:
 
     def __init__(self, chromosome):
@@ -60,6 +76,9 @@ class Individual:
 
     def update_fitness(self, fitness):
         self.fitness = fitness
+
+    def __str__(self):
+        return 'Fitness: ' + str(self.fitness) + '\n' + str(self.chromosome)
 
 
 
@@ -79,9 +98,11 @@ class GeneticAlgorithm:
             chrom = Chromosome()
             chrom.initilize_hands()
             population.append(Individual(chrom))
+        
+        print(population[0])
 
-        for i in population[0].chromosome.hard_hands:
-            print(i)
+        # for i in population[0].chromosome.hard_hands:
+        #     print(i)
 
         # for pop in population:
         #     print(pop.chromosome.hard_hands)
