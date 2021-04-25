@@ -25,7 +25,7 @@ class Card:
     def __ne__(self, other):
         return self.value != other.value
     # for comparisons, aces are low
-    def __lt__(self, other):
+    def __lt__(self, other): 
         return self.value < other.value
     def __gt__(self, other):
         return self.value > other.value
@@ -66,8 +66,6 @@ def inputCard(msg):
         else:
             msg = 'invalid card, try again: '
     return newCard
-
-
 
 card1 = Card(1, S)
 print(card1)
