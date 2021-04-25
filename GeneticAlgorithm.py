@@ -4,13 +4,13 @@ import time
 import blackjack
 
 ## GLOBAL PARAMS ##
-generations = 2
+generations = 1000
 log_file = "blackjackLogs.txt"
 population_size = 100
 survivors = 10
 mutation_rate = 0.05
 log = True
-num_games = 100
+num_games = 1000
 
 # log function
 def log(o=''):
@@ -99,6 +99,7 @@ class Individual:
     def calc_fitness(self):
         # play num_games number of blackjack Hands
         global num_games
+        self.fitness = 0
         for i in range(num_games):
             self.fitness += int(blackjack.play_blackjack_hand('ga',self))
 
@@ -168,7 +169,7 @@ def main():
         log('CALCULATING FITNESS...')
         for i in range(population_size):
             population[i].calc_fitness()
-            print(i,"of",population_size)
+            #print(i,"of",population_size)
         log(str(generation) + ' calc_fitness time = ' + str(time.time()-timeStart))
 
         # sorts population by fitness
