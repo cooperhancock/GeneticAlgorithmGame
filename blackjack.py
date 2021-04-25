@@ -1,6 +1,7 @@
 import random
 import sys
 import GeneticAlgorithm
+import math
 
 # genetic algorithm individual
 GA = None
@@ -33,7 +34,7 @@ def low_sum(hand):
     return sum
 
 # calculates highest sum that doesn't bust or lowest sum
-def sum(hand):
+def hand_sum(hand):
     if low_sum(hand) > 21: return low_sum(hand)
     if high_sum(hand) < 22:
         return high_sum(hand)
@@ -43,9 +44,9 @@ def sum(hand):
 # calculates state of hand
 # returns None if less than 21, False if busted (>21), and True if 21
 def hand_state(hand):
-    if sum(hand) > 21:
+    if hand_sum(hand) > 21:
         return False
-    elif sum(hand) < 21:
+    elif hand_sum(hand) < 21:
         return None
     else:
         return True
@@ -86,22 +87,27 @@ def genetic_algorithm(hand, dealer, ga_player):
                 return ga_player.chromosome.soft_hands[hand[1]][dealer]
     # hard hands
     #print('hard')
-    return ga_player.chromosome.hard_hands[sum(hand)][dealer]
+    return ga_player.chromosome.hard_hands[hand_sum(hand)][dealer]
         
 
 
 # main blackjack game (1 hand)
-# return True if player wins or ties, False if they lose
-def play_blackjack_hand(player,ga_player=None):
+# return 1 if player wins, 0 if ties, -1 if they lose
+def play_blackjack_hand(player,ga_player=None,card1=None,card2=None,dealer_card=None):
     deck = create_blackjack_deck()
     random.shuffle(deck)
-    player_hand = [deck.pop(0),deck.pop(0)]
-    dealer_hand = [deck.pop(0),deck.pop(0)]
+    player_hand = [deck.pop(deck.index(card1)),deck.pop(deck.index(card2))] if not (card1==None or card2==None) else [deck.pop(0),deck.pop(0)]
+    dealer_hand = [deck.pop(deck.index(dealer_card)),deck.pop(0)] if not dealer_card == None else [deck.pop(0),deck.pop(0)]
+    #print("player",player_hand,"dealer",dealer_hand)
     if player == 'human': print("dealer's card: ",dealer_hand[0])
     choice = None
     if hand_state(player_hand):
-            if player == 'human': print('you have blackjack!')
-            return True
+        if player == 'human': print('you have blackjack!')
+        if hand_state(dealer_hand): # check for dealer blackjack
+            if player == 'human': print('dealer also has blackjack')
+            return 0
+        else:
+            return 1
     while not choice == 's':
         if player == 'human': print("your hand:",player_hand)
         # choice
@@ -120,15 +126,14 @@ def play_blackjack_hand(player,ga_player=None):
             if player == 'human': print("new card:",player_hand[len(player_hand)-1])
         # check game state
         if hand_state(player_hand):
-            if player == 'human': print('you have 21!')
-            return True
+            break # if 21
         elif hand_state(player_hand) == False:
             if player == 'human': print('you busted :(')
-            return False
+            return -1
     if hand_state(dealer_hand): # check for dealer blackjack
         if player == 'human': print('dealer has blackjack :(')
         #print("player",player_hand,"dealer",dealer_hand)
-        return False
+        return -1
     # dealer plays
     while high_sum(dealer_hand) < 17 or (low_sum(dealer_hand) < 17 and high_sum(dealer_hand) > 21):
         dealer_hand.append(deck.pop(0))
@@ -136,25 +141,28 @@ def play_blackjack_hand(player,ga_player=None):
     if hand_state(dealer_hand) == False:
         if player == 'human': print('the dealer busted!')
         #print("player",player_hand,"dealer",dealer_hand)
-        return True
-    elif sum(dealer_hand) > sum(player_hand):
+        return 1
+    elif hand_sum(dealer_hand) > hand_sum(player_hand):
         if player == 'human': print('you lose :(')
         #print("player",player_hand,"dealer",dealer_hand)
-        return False
-    else:
+        return -1
+    elif hand_sum(dealer_hand) < hand_sum(player_hand):
         if player == 'human': print('you win!')
         #print("player",player_hand,"dealer",dealer_hand)
-        return True
+        return 1
+    else:
+        if player == 'human': print("it's a tie")
+        return 0
 
 def blackjack_tournament(player,num_games=100):
-    wins = 0
+    score = 0
     for i in range(num_games):
-        if play_blackjack_hand(player): wins += 1
-    return wins
+        score += play_blackjack_hand(player)
+    return score
 
 if __name__ == "__main__":
     if 'human' in sys.argv:
-        play_blackjack_hand('human')
+        print(play_blackjack_hand('human')) 
     if 'tournament' in sys.argv:
         print(blackjack_tournament(sys.argv[sys.argv.index('tournament') + 1],int(sys.argv[sys.argv.index('tournament') + 2])))
     if 'ga' in sys.argv:

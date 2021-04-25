@@ -4,13 +4,13 @@ import time
 import blackjack
 
 ## GLOBAL PARAMS ##
-generations = 1000
+generations = 100
 log_file = "blackjackLogs.txt"
 population_size = 100
 survivors = 10
-mutation_rate = 0.05
+mutation_rate = 0.10
 log = True
-num_games = 1000
+calc_fitness_multiplier = 15
 
 # log function
 def log(o=''):
@@ -96,12 +96,21 @@ class Individual:
         self.chromosome = chromosome
         self.chromosome.initilize_hands()
 
+    # total possible fitness of 1000 if all games are won
+    # for comparison, using dealer strategy yeilds a fitness score of -80
     def calc_fitness(self):
         # play num_games number of blackjack Hands
-        global num_games
+        global calc_fitness_multiplier
         self.fitness = 0
-        for i in range(num_games):
-            self.fitness += int(blackjack.play_blackjack_hand('ga',self))
+        for iterations in range(calc_fitness_multiplier):
+            for dealer_card in range(1,11): # range of dealer card options
+                #print(dealer_card,'of',10)
+                # play every combo of player cards
+                for i in range(1,11):
+                    for j in range(1,11):
+                        self.fitness += int(blackjack.play_blackjack_hand('ga',self,i,j,dealer_card))
+        self.fitness = self.fitness / calc_fitness_multiplier # take average fitness 
+        return self.fitness
 
     def crossover(self, other):
         global mutation_rate
@@ -153,10 +162,10 @@ def main():
     # calculate run time
     timeStart = time.time()
     print('calculating run time...')
-    dummyPop = random_population(int(population_size//2))
-    for i in range(population_size//2):
-        dummyPop[i].calc_fitness()
-    log('estimated time to complete: ' + str(((time.time()-timeStart)*2*generations/60)) + ' minutes')
+    dummyPop = random_population(int(population_size//10))
+    for individual in dummyPop:
+        individual.calc_fitness()
+    log('estimated time to complete: ' + str(((time.time()-timeStart)*10*generations/60)) + ' minutes')
     x = input('Press Enter to continue or q to quit: ')
     if x == 'q':
         return
@@ -169,7 +178,7 @@ def main():
         log('CALCULATING FITNESS...')
         for i in range(population_size):
             population[i].calc_fitness()
-            #print(i,"of",population_size)
+            print(i,"of",population_size)
         log(str(generation) + ' calc_fitness time = ' + str(time.time()-timeStart))
 
         # sorts population by fitness
