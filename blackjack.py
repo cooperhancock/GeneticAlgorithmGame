@@ -89,7 +89,48 @@ def genetic_algorithm(hand, dealer, ga_player):
     #print('hard')
     return ga_player.chromosome.hard_hands[hand_sum(hand)][dealer]
         
-
+# chooser that uses ga filled with data from online strategy
+# double downs were replaced with holds and pairs copy hard hands
+def optimal(hand, dealer):
+    optimalGA = GeneticAlgorithm.Individual(GeneticAlgorithm.Chromosome())
+    optimalGA.chromosome.hard_hands = {
+        5:  {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        6:  {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        7:  {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        8:  {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        9:  {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        10: {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        11: {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        12: {2: 'h', 3: 'h', 4: 's', 5: 's', 6: 's', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        13: {2: 's', 3: 's', 4: 's', 5: 's', 6: 's', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        14: {2: 's', 3: 's', 4: 's', 5: 's', 6: 's', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        15: {2: 's', 3: 's', 4: 's', 5: 's', 6: 's', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        16: {2: 's', 3: 's', 4: 's', 5: 's', 6: 's', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        17: {2: 's', 3: 's', 4: 's', 5: 's', 6: 's', 7: 's', 8: 's', 9: 's', 10: 's', 1: 's'},
+        18: {2: 's', 3: 's', 4: 's', 5: 's', 6: 's', 7: 's', 8: 's', 9: 's', 10: 's', 1: 's'},
+        19: {2: 's', 3: 's', 4: 's', 5: 's', 6: 's', 7: 's', 8: 's', 9: 's', 10: 's', 1: 's'},
+        20: {2: 's', 3: 's', 4: 's', 5: 's', 6: 's', 7: 's', 8: 's', 9: 's', 10: 's', 1: 's'}} 
+    optimalGA.chromosome.soft_hands = {
+        2:  {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        3:  {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        4:  {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        5:  {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        6:  {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        7:  {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 's', 8: 's', 9: 'h', 10: 'h', 1: 'h'},
+        8:  {2: 's', 3: 's', 4: 's', 5: 's', 6: 's', 7: 's', 8: 's', 9: 's', 10: 's', 1: 's'},
+        9:  {2: 's', 3: 's', 4: 's', 5: 's', 6: 's', 7: 's', 8: 's', 9: 's', 10: 's', 1: 's'}}
+    optimalGA.chromosome.pairs = {
+        2:  {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        3:  {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        4:  {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        5: {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 'h', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        6: {2: 'h', 3: 'h', 4: 's', 5: 's', 6: 's', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        7: {2: 's', 3: 's', 4: 's', 5: 's', 6: 's', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        8: {2: 's', 3: 's', 4: 's', 5: 's', 6: 's', 7: 'h', 8: 'h', 9: 'h', 10: 'h', 1: 'h'},
+        9: {2: 's', 3: 's', 4: 's', 5: 's', 6: 's', 7: 's', 8: 's', 9: 's', 10: 's', 1: 's'},
+        10: {2: 's', 3: 's', 4: 's', 5: 's', 6: 's', 7: 's', 8: 's', 9: 's', 10: 's', 1: 's'},
+        1: {2: 's', 3: 's', 4: 's', 5: 's', 6: 's', 7: 's', 8: 's', 9: 's', 10: 's', 1: 's'}} 
+    return genetic_algorithm(hand, dealer, optimalGA)
 
 # main blackjack game (1 hand)
 # return 1 if player wins, 0 if ties, -1 if they lose
@@ -120,6 +161,8 @@ def play_blackjack_hand(player,ga_player=None,card1=None,card2=None,dealer_card=
         if player == 'ga':
             choice = genetic_algorithm(player_hand,dealer_hand[0],ga_player)
             #print(choice)
+        if player == 'optimal':
+            choice = optimal(player_hand,dealer_hand[0])
         # hit
         if choice == 'h':
             player_hand.append(deck.pop(0))
@@ -154,11 +197,13 @@ def play_blackjack_hand(player,ga_player=None,card1=None,card2=None,dealer_card=
         if player == 'human': print("it's a tie")
         return 0
 
-def blackjack_tournament(player,num_games=100):
+def blackjack_tournament(player,num_games=1000):
     score = 0
-    for i in range(num_games):
-        score += play_blackjack_hand(player)
-    return score
+    for j in range(30):
+        for i in range(num_games):
+            score += play_blackjack_hand(player)
+        print(score / (j + 1))
+    return score / 30
 
 if __name__ == "__main__":
     if 'human' in sys.argv:
@@ -167,6 +212,10 @@ if __name__ == "__main__":
         print(blackjack_tournament(sys.argv[sys.argv.index('tournament') + 1],int(sys.argv[sys.argv.index('tournament') + 2])))
     if 'ga' in sys.argv:
         print(play_blackjack_hand('ga'))
+    if 'optimal' in sys.argv:
+        print(blackjack_tournament('optimal'))
+    if 'dealer' in sys.argv:
+        print(blackjack_tournament('dealer'))
     else:
         x = input('enter player: ')
         print(play_blackjack_hand(x))                               
