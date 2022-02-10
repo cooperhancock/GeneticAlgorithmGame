@@ -67,7 +67,9 @@ contains global params at the beginning of the file to be adjusted by user
 
 #### Example Chromosome
 
+```
 player = Fitness: -214.4
+
 Hard Hands:
 5:  {2: 's', 3: 'h', 4: 'h', 5: 's', 6: 's', 7: 'h', 8: 'h', 9: 's', 10: 's', 1: 'h'}
 6:  {2: 's', 3: 'h', 4: 'h', 5: 's', 6: 's', 7: 's', 8: 'h', 9: 'h', 10: 's', 1: 's'}
@@ -105,6 +107,7 @@ Pairs:
 9:  {2: 's', 3: 's', 4: 's', 5: 's', 6: 'h', 7: 's', 8: 'h', 9: 's', 10: 'h', 1: 'h'}
 10: {2: 's', 3: 's', 4: 'h', 5: 's', 6: 's', 7: 's', 8: 's', 9: 's', 10: 'h', 1: 's'}
 1:  {2: 'h', 3: 'h', 4: 'h', 5: 'h', 6: 's', 7: 's', 8: 'h', 9: 'h', 10: 'h', 1: 'h'}
+```
 
 * Fitness function plays a hand for every combination of 2 cards dealt to the player and 1 dealer card player can see (1000 combinations). Multiple iterations are done and the average fitness of 15 rounds of the 1000 hands is set as the fitness. This is to ensure accuracy in the fitness score. 
 
